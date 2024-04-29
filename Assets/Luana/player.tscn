@@ -1,0 +1,98 @@
+[gd_scene load_steps=11 format=3 uid="uid://b7bo8dv1hjx5o"]
+
+[ext_resource type="Texture2D" uid="uid://dbvn1hsew1j7k" path="res://Assets/Luana/Idle/Idle-Sheet.png" id="2_qbo30"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ha00n"]
+atlas = ExtResource("2_qbo30")
+region = Rect2(0, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxhia"]
+atlas = ExtResource("2_qbo30")
+region = Rect2(64, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2dy4s"]
+atlas = ExtResource("2_qbo30")
+region = Rect2(128, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flf4y"]
+atlas = ExtResource("2_qbo30")
+region = Rect2(192, 0, 64, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qw0f0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ha00n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxhia")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2dy4s")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_flf4y")
+}],
+"loop": true,
+"name": &"Parada",
+"speed": 6.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pieh7"]
+height = 48.0
+
+[sub_resource type="Animation" id="Animation_55ic8"]
+resource_name = "Parada"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_1dpct"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e7j0v"]
+_data = {
+"Parada": SubResource("Animation_55ic8"),
+"RESET": SubResource("Animation_1dpct")
+}
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(92, 101)
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(41, -25)
+sprite_frames = SubResource("SpriteFrames_qw0f0")
+animation = &"Parada"
+
+[node name="Colisao" type="CollisionShape2D" parent="."]
+position = Vector2(41, -27)
+shape = SubResource("CapsuleShape2D_pieh7")
+
+[node name="Animacao" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_e7j0v")
+}
+autoplay = "Parada"
